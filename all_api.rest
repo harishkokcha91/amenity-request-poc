@@ -1,0 +1,53 @@
+@host = localhost:8080
+@api = http://{{host}}/api/v1
+@token = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjQxMzY4NzksImlhdCI6MTcyNDEzNTk3OSwibmJmIjoxNzI0MTM1OTc5LCJzdWIiOjF9.xCd5Vr4q6X4Ih8ekreFj29BOVrDAEiQTz-SbDTcvmhb0FpEQtn9-HDJteFy1ApbDJD2ExogH5SBFsS6pQZVH7w
+@reservationId = RES123
+@requestId = dd873d29-f055-4519-b36c-5410948a2482
+
+###
+# Health Check
+GET {{api}}/healthcheck HTTP/1.1
+Accept: application/json
+
+###
+# Create Amenity Request
+POST {{api}}/reservations/{{reservationId}}/amenity-requests HTTP/1.1
+Content-Type: application/json
+# Authorization: Bearer {{token}}
+
+{
+  "guest_id": "GUEST2",
+  "property_id": "PROPERTY1",
+  "amenity_type": "TOWELS",
+  "description": "Extra towels please",
+  "quantity": 2,
+  "created_by": "tester"
+}
+
+###
+# List Amenity Requests for a Reservation
+GET {{api}}/reservations/{{reservationId}}/amenity-requests HTTP/1.1
+Accept: application/json
+# Authorization: Bearer {{token}}
+
+###
+# List Reservations (distinct reservation IDs)
+GET {{api}}/reservations HTTP/1.1
+Accept: application/json
+# Authorization: Bearer {{token}}
+
+###
+# Get Amenity Request by ID
+GET {{api}}/amenity-requests/{{requestId}} HTTP/1.1
+Accept: application/json
+# Authorization: Bearer {{token}}
+
+###
+# Update Amenity Request Status
+PATCH {{api}}/amenity-requests/{{requestId}}/status HTTP/1.1
+Content-Type: application/json
+# Authorization: Bearer {{token}}
+
+{
+  "status": "COMPLETED"
+}
